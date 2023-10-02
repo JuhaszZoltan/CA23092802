@@ -22,7 +22,7 @@ namespace CA23092802
                     string sor = sr.ReadLine();
                     for (int o = 0; o < sor.Length; o++)
                     {
-                        m[s, o] = sor[o] == '1' ? true : false;
+                        m[s, o] = sor[o] == '1';
                     }
                 }
                 karakterek.Add(new Karakter(b, m));
@@ -36,7 +36,7 @@ namespace CA23092802
             {
                 Console.Write("input: ");
                 res = char.TryParse(Console.ReadLine(), out input);
-            } while (!res && (input < 65 || input > 90));
+            } while (!res || input < 65 || input > 90);
         }
     }
 }
