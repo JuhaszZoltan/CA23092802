@@ -10,24 +10,7 @@ namespace CA23092802
     {
         static void Main()
         {
-            var bank = new List<Karakter>();
-            using var sr = new StreamReader(
-                @"..\..\..\src\bank.txt",
-                Encoding.UTF8);
-            while (!sr.EndOfStream)
-            {
-                char b = char.Parse(sr.ReadLine());
-                bool[,] m = new bool[7, 4];
-                for (int s = 0; s < 7; s++)
-                {
-                    string sor = sr.ReadLine();
-                    for (int o = 0; o < sor.Length; o++)
-                    {
-                        m[s, o] = sor[o] == '1';
-                    }
-                }
-                bank.Add(new Karakter(b, m));
-            }
+            var bank = Beolvas(@"..\..\..\src\bank.txt");
 
             Console.WriteLine($"karakterek szama: {bank.Count}");
 
@@ -43,7 +26,38 @@ namespace CA23092802
             if (megj is not null) Console.Write(megj.Kirajzol());
             else Console.WriteLine("nincs ilyen a bankban");
 
+            var dekodolando = Beolvas(@"..\..\..\src\dekodol.txt");
 
+            Console.Write("dekodolas: ");
+            foreach (var dekk in dekodolando)
+            {
+                var bankk = bank.SingleOrDefault(k => k.Felismer(dekk));
+                Console.Write(bankk is null ? "?" : bankk.Betu);
+            }
+            Console.Write('\n');
+        }
+
+        static List<Karakter> Beolvas(string eleresiUt)
+        {
+            var karakterek = new List<Karakter>();
+            using var sr = new StreamReader(
+                eleresiUt,
+                Encoding.UTF8);
+            while (!sr.EndOfStream)
+            {
+                char b = char.Parse(sr.ReadLine());
+                bool[,] m = new bool[7, 4];
+                for (int s = 0; s < m.GetLength(0); s++)
+                {
+                    string sor = sr.ReadLine();
+                    for (int o = 0; o < m.GetLength(1); o++)
+                    {
+                        m[s, o] = sor[o] == '1';
+                    }
+                }
+                karakterek.Add(new Karakter(b, m));
+            }
+            return karakterek;
         }
     }
 }
